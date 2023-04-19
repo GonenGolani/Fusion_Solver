@@ -3,14 +3,21 @@ clc
 clear all
 close all
 addpath('C:\Users\gonen\Google Drive\Fusion viral project\Fusion_Solver\source files\')
-cd('C:\Fusion intermidate Solver\Results\Flat and Flat\IFITM3\l=1.2\Uniform_curvature_effect_REDO\1')
+cd('C:\Fusion intermidate Solver\Results\Stalk_only\Change_l_J0_-0.22_STALK\1')
 [Diaphragm,Cell,Virus,Shell,Minimazation,res_struc,General_physical_properties,Energy,Total_energy,DOF_vector,System_dimensions]...
-    = reload_HD_state('step_12.mat');
+    = reload_HD_state('step_16.mat');
 
-plot_profile(Diaphragm,Cell,Virus,Shell,1,1,1,Minimazation.up_down_symmetry);
+[Diaphragm,Cell,Virus,Shell,Energy,Total_energy] = find_HD_energy(Diaphragm,Cell,Virus,Shell,Minimazation,res_struc);
+
+
+
+Plot_fusing_membrane(Diaphragm,Virus,Cell,100);
+
+plot_profile(Diaphragm,Cell,Virus,Shell,1,1,0,Minimazation.up_down_symmetry);
+
+
 
 plot_HD(Diaphragm,Cell,Virus,Shell,res_struc);
-Plot_fusing_membrane(Diaphragm,Virus,Cell,100);
     Kappa_tilt=Diaphragm.physical_properties.kappa_tilt;
     chi=Diaphragm.physical_properties.kappa_bar_up;
     

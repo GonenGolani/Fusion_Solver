@@ -19,9 +19,13 @@ elseif strcmp(value_to_check,'General_physical_properties.virus_distal_kappa')
     value=General_physical_properties.virus_distal_kappa;
 elseif strcmp(value_to_check,'General_physical_properties.proximal_kappa')
     value=General_physical_properties.proximal_kappa;
-    
-  
-    
+elseif strcmp(value_to_check,'General_physical_properties.Splay_grad_tilt_modulus')
+    value=General_physical_properties.Splay_grad_tilt_modulus;    
+elseif strcmp(value_to_check,'General_physical_properties.Splay_grad_square_modulus')
+    value=General_physical_properties.Splay_grad_square_modulus;   
+elseif strcmp(value_to_check,'General_physical_properties.Surface_tension')
+    value=General_physical_properties.Surface_tension;  
+
 elseif strcmp(value_to_check,'General_physical_properties.Cell_mid_plane_physical_proprties.kappa')
     value=General_physical_properties.Cell_mid_plane_physical_proprties.kappa;
 elseif strcmp(value_to_check,'General_physical_properties.Cell_mid_plane_physical_proprties.kappa_bar')
@@ -77,7 +81,9 @@ elseif strcmp(value_to_check,'Minimazation.symmetric_distal_J0')
 
 elseif strcmp(value_to_check,'Minimazation.HD_rim_fixed_cell')
     value=Minimazation.HD_rim_fixed_cell;
-      
+    
+elseif strcmp(value_to_check,'Minimazation.fix_inter_membrane_distance')
+    value=Minimazation.fix_inter_membrane_distance;      
 else
     disp('ERROR in find_value_from_name, no value found')
 end

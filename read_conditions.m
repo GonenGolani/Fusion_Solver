@@ -17,6 +17,7 @@ General_physical_properties.virus_distal_kappa=importdata('virus distal kappa.tx
 General_physical_properties.proximal_kappa=importdata('proximal kappa.txt'); %merged proximal monolayer bending rigidity
 General_physical_properties.Splay_grad_square_modulus=importdata('Splay grad square modulus.txt');
 General_physical_properties.Splay_grad_tilt_modulus=importdata('Splay grad tilt modulus.txt');
+General_physical_properties.Surface_tension=importdata('Surface_tension.txt');
 
 
 
@@ -54,6 +55,7 @@ Minimazation.MAX_DOF_angle_RHO=importdata('Max angle rho degree of freedom.txt')
 Minimazation.MAX_DOF_angle_PHI=importdata('Max angle phi degree of freedom.txt'); 
 Minimazation.max_step=importdata('max step size.txt');
 Minimazation.temperature=importdata('start annealing temperature.txt');
+Minimazation.number_of_repeats_each_step=importdata('repeats at each step.txt');
 
 
 cd(parmeters_path);
@@ -76,16 +78,18 @@ Minimazation.symmetric_distal_J0=importdata('symmetric distal J0.txt'); %0 is no
 Minimazation.non_axial_symmetric_polynom=importdata('smooth non_axial symmetric polynom.txt'); % if 1 use polynom approximation to describe 
 Minimazation.exponential_decay_tilt=importdata('exponential decay tilt.txt'); % 0 if unsing only polynom to describe if 1 multiply the polynom with exponent. the exponent is a new DOF
 Minimazation.fix_Cell_volume=importdata('fix Cell volume.txt'); % 0 if not fixed, any other value will fix the volume by adjusting the Cell radius
-Minimazation.fix_inter_membrane_distance=importdata('fix inter membrane distance.txt'); % 0 if not fixed, any other value will fix the volume by adjusting the Cell radius
+Minimazation.fix_inter_membrane_distance=importdata('fix inter membrane distance.txt'); % 0 if not fixed, any other will fix the value
 
 Minimazation.Cell_trans_membrane_added_proprties_exist=importdata('Cell trans membrane added proprties.txt'); %1 if there are added proprties to the cell membrane, 0 if not used
 Minimazation.sorting_protein_in_cell_membrane=char(importdata('Add sorting inducing in cell membrane.txt'));   %1 if allow lipid sorting betweeen distal monolayer of cell and diaphragm, 0 if not used
 Minimazation.do_stalk=importdata('do stalk.txt');   % if 1 the diaphragm radius size effectivaly zero and it is not included in energy 
-Minimazation.no_sorting=importdata('no sorting.txt'); 
-Minimazation.no_TM_direct_intrinsic_curvature=importdata('no TM direct intrinsic curvature.txt'); 
 
 Minimazation.full_lipid_flip_flop=importdata('lipid full flip flop.txt'); 
-
+Minimazation.Volume_fixed_based_on_Rc=importdata('Volume_fixed_based_on_Rc.txt');
+  
+Minimazation.tension_distance_coupleing.exist=importdata('tension_distance_coupleing_exist.txt'); 
+Minimazation.tension_distance_coupleing.kappa_b=importdata('tension_distance_coupleing_kappa_b.txt'); 
+Minimazation.tension_distance_coupleing.Pext=importdata('tension_distance_coupleing_Pext.txt'); 
 
 
 
@@ -129,6 +133,12 @@ if strcmp(Minimazation.sorting_protein_in_cell_membrane,'affinity_based')...
         || strcmp(Minimazation.sorting_protein_in_cell_membrane,'splay_based')...
         || Minimazation.Cell_trans_membrane_added_proprties_exist==1
 
+    cd('Handls');
+    Minimazation.no_sorting=importdata('no sorting.txt'); 
+    Minimazation.no_TM_direct_intrinsic_curvature=importdata('no TM direct intrinsic curvature.txt'); 
+
+    cd(parmeters_path);
+
     cd('TM protein Cell')
     General_physical_properties.Cell_mid_plane_physical_proprties.kappa=importdata('Cell trans memb kappa.txt');
     General_physical_properties.Cell_mid_plane_physical_proprties.kappa_bar=importdata('Cell trans memb kappa_bar.txt');
@@ -150,16 +160,6 @@ if strcmp(Minimazation.sorting_protein_in_cell_membrane,'affinity_based')...
 cd(parmeters_path);
 end
 
-
-if Minimazation.relaxed_spherical_VLP==1
-    alpha=General_physical_properties.cell_distal_kappa/General_physical_properties.proximal_kappa;
-    General_physical_properties.Cell_distal_J0=(General_physical_properties.proximal_J0-2*(1+alpha)/Cell.R_curv)/alpha;
-end
-
-if Minimazation.relaxed_cylindrical_VLP==1
-    alpha=General_physical_properties.virus_distal_kappa/General_physical_properties.proximal_kappa;
-    General_physical_properties.Virus_distal_J0=(General_physical_properties.proximal_J0-(1+alpha)/Virus.r_sv)/alpha;
-end
 
 if Minimazation.symmetric_J0==1
     General_physical_properties.Virus_distal_J0=General_physical_properties.proximal_J0;

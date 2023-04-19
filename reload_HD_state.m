@@ -13,19 +13,43 @@ function [Diaphragm,Cell,Virus,Shell,Minimazation,res_struc,General_physical_pro
     end        
 
     %% backward competability
+    
+    if isfield(Minimazation,'tension_distance_coupleing')==0
+        Minimazation.tension_distance_coupleing.exist=0;
+        Minimazation.tension_distance_coupleing.kappa_b=0;
+        Minimazation.tension_distance_coupleing.Pext=0;
+    end
+
+    if isfield(General_physical_properties,'Surface_tension')==0
+        General_physical_properties.Surface_tension=0;
+    end
+    
     if isfield(General_physical_properties,'Cell_mid_plane_physical_proprties')==0
         General_physical_properties.Cell_mid_plane_physical_proprties.sorting=0;
+    else
+        if isfield(General_physical_properties.Cell_mid_plane_physical_proprties,'sorting')
+            if isfield(General_physical_properties.Cell_mid_plane_physical_proprties.sorting,'j_TM_luminal')==0
+                General_physical_properties.Cell_mid_plane_physical_proprties.sorting.j_TM_luminal=0; 
+            end
+        end
     end
+
+
+    
+    if isfield(Minimazation,'Volume_fixed_based_on_Rc')==0
+        Minimazation.Volume_fixed_based_on_Rc=0;
+    end
+
     if isfield(Minimazation,'full_lipid_flip_flop')==0
         Minimazation.full_lipid_flip_flop=0; 
     end
 
-    if isfield(General_physical_properties.Cell_mid_plane_physical_proprties.sorting,'j_TM_luminal')==0
-        General_physical_properties.Cell_mid_plane_physical_proprties.sorting.j_TM_luminal=0; 
-    end
     
     if isfield(Minimazation,'Cell_trans_membrane_added_proprties_exist')==0
         Minimazation.Cell_trans_membrane_added_proprties_exist=0;
+    end
+    if isfield(Minimazation,'number_of_repeats_each_step')==0
+        Minimazation.number_of_repeats_each_step=1;
     end
     if isfield(Minimazation,'sorting_protein_in_cell_membrane')==0
         Minimazation.sorting_protein_in_cell_membrane=0;
@@ -110,6 +134,8 @@ function [Diaphragm,Cell,Virus,Shell,Minimazation,res_struc,General_physical_pro
         General_physical_properties.Splay_grad_tilt_modulus=1;
         set_back_to_zero=1;
     end
+
+    
     [Diaphragm,Cell,Virus,Shell] = build_Hemifusion_structure(Diaphragm,Cell,Virus,Shell,Minimazation,res_struc,General_physical_properties);
     if set_back_to_zero==1
         

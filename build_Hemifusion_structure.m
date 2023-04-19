@@ -398,6 +398,8 @@ Virus.physical_properties.J0_up=General_physical_properties.Virus_distal_J0;
 Virus.physical_properties.J0_down=General_physical_properties.proximal_J0;
 Virus.physical_properties.Splay_grad_square_modulus=General_physical_properties.Splay_grad_square_modulus;
 Virus.physical_properties.Splay_grad_tilt_modulus=General_physical_properties.Splay_grad_tilt_modulus;
+Virus.physical_properties.Surface_tension=General_physical_properties.Surface_tension;
+
 
 Cell.physical_properties.lipid_length=lipid_length; %[nm]
 Cell.physical_properties.kappa_up=General_physical_properties.proximal_kappa; 
@@ -410,6 +412,7 @@ Cell.physical_properties.J0_up=General_physical_properties.proximal_J0;
 Cell.physical_properties.J0_down=General_physical_properties.Cell_distal_J0;
 Cell.physical_properties.Splay_grad_square_modulus=General_physical_properties.Splay_grad_square_modulus;
 Cell.physical_properties.Splay_grad_tilt_modulus=General_physical_properties.Splay_grad_tilt_modulus;
+Cell.physical_properties.Surface_tension=General_physical_properties.Surface_tension;
 
 
 Diaphragm.physical_properties.lipid_length=lipid_length; %[nm]
@@ -423,6 +426,7 @@ Diaphragm.physical_properties.J0_up=Virus.physical_properties.J0_up;
 Diaphragm.physical_properties.J0_down=Cell.physical_properties.J0_down;
 Diaphragm.physical_properties.Splay_grad_square_modulus=General_physical_properties.Splay_grad_square_modulus;
 Diaphragm.physical_properties.Splay_grad_tilt_modulus=General_physical_properties.Splay_grad_tilt_modulus;
+Diaphragm.physical_properties.Surface_tension=General_physical_properties.Surface_tension;
 
 
 
@@ -526,6 +530,25 @@ if strcmp(Minimazation.sorting_protein_in_cell_membrane,'affinity_based') && Min
         Cell.physical_properties.J0_down=J0_R_no_TM;
     end
 
+end
+
+
+if Minimazation.relaxed_spherical_VLP==1
+    J_sm=General_physical_properties.proximal_J0;
+    Cell.physical_properties.J0_up=General_physical_properties.proximal_J0+(1-lipid_length*J_sm)/Cell.R_curv;
+    Cell.physical_properties.J0_down=General_physical_properties.Cell_distal_J0-(1-lipid_length*J_sm)/Cell.R_curv;
+end
+
+if Minimazation.relaxed_cylindrical_VLP==1
+    rbv=Virus.r_bv;
+    rsv_proxy=Virus.r_sv+Virus.physical_properties.lipid_length;
+    rsv_distal=Virus.r_sv-Virus.physical_properties.lipid_length;
+    J2A_proximal=(rbv^4/(rbv^2*rsv_proxy^2-rsv_proxy^4))^0.5;
+    J2A_distal=(rbv^4/(rbv^2*rsv_distal^2-rsv_distal^4))^0.5;
+    Delta_J_cylinder=(J2A_proximal+J2A_distal)/(2*rbv);
+    Virus.physical_properties.J0_down=General_physical_properties.proximal_J0+Delta_J_cylinder;
+
+    Virus.physical_properties.J0_up=General_physical_properties.Virus_distal_J0-Delta_J_cylinder;
 end
 
 

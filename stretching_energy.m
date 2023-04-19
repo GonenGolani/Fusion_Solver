@@ -7,7 +7,6 @@ function [stretching_energy,proximal_energy_density,distal_energy_density_cell,d
         Rc_distal=Cell.R_curv-Cell.physical_properties.lipid_length;
         Rm_proxy=Cell.R_rim*(1+Cell.physical_properties.lipid_length/abs(Cell.R_curv));
         Rm_distal=Cell.R_rim*(1-Cell.physical_properties.lipid_length/abs(Cell.R_curv));
-
     else
         Rc_proxy=abs(Cell.R_curv)-Cell.physical_properties.lipid_length;
         Rc_distal=abs(Cell.R_curv)+Cell.physical_properties.lipid_length;
@@ -16,9 +15,16 @@ function [stretching_energy,proximal_energy_density,distal_energy_density_cell,d
     end
     
 
+    if Minimazation.fix_Cell_volume~=0 %if the cell volume is fixed the refrence radius is the rest one
+        Rc_proxy_fixed=(Minimazation.fix_Cell_volume*3/(4*pi)).^(1/3)+Cell.physical_properties.lipid_length;
+        proximal_initial_area=4*pi*Rc_proxy_fixed^2+4*pi^2*(Virus.r_sv+Virus.physical_properties.lipid_length)*Virus.r_bv;
+    elseif Cell.rest_radius_if_volume_fixed~=0 % if the radius and volume are fixed
+        Rc_proxy_fixed=Cell.rest_radius_if_volume_fixed+Cell.physical_properties.lipid_length;
+        proximal_initial_area=4*pi*Rc_proxy_fixed^2+4*pi^2*(Virus.r_sv+Virus.physical_properties.lipid_length)*Virus.r_bv;
+    else
+        proximal_initial_area=4*pi*Rc_proxy^2+4*pi^2*(Virus.r_sv+Virus.physical_properties.lipid_length)*Virus.r_bv;
+    end
 
-    proximal_initial_area=4*pi*Rc_proxy^2+4*pi^2*(Virus.r_sv+Virus.physical_properties.lipid_length)*Virus.r_bv;
-    
     [cell_area_outside_of_fusion_site] = cell_area(Rc_proxy,Rm_proxy);
     
     current_proximal_area=Virus.total_area_down+Cell.total_area_up+virus_proximal_area+cell_area_outside_of_fusion_site;
@@ -27,8 +33,15 @@ function [stretching_energy,proximal_energy_density,distal_energy_density_cell,d
     initial_virus_distal_monolayer=4*pi^2*(Virus.r_sv-Virus.physical_properties.lipid_length)*Virus.r_bv;
     currnet_virus_distal_monolayer=virus_distal_area+Virus.total_area_up+Diaphragm.total_area_up;
 
-
-    initial_cell_distal_monolayer=4*pi*Rc_distal^2;
+    if Minimazation.fix_Cell_volume~=0 %if the cell volume is fixed the refrence radius is the rest one
+        Rc_distal_fixed=(Minimazation.fix_Cell_volume*3/(4*pi)).^(1/3)-Cell.physical_properties.lipid_length;
+        initial_cell_distal_monolayer=4*pi*Rc_distal_fixed^2;
+    elseif Cell.rest_radius_if_volume_fixed~=0 % if the radius and volume are fixed
+        Rc_distal_fixed=Cell.rest_radius_if_volume_fixed-Cell.physical_properties.lipid_length;    
+        initial_cell_distal_monolayer=4*pi*Rc_distal_fixed^2;
+    else
+        initial_cell_distal_monolayer=4*pi*Rc_distal^2;
+    end
     current_cell_distal_monolayer=cell_area(Rc_distal,Rm_distal)+Cell.total_area_down+Diaphragm.total_area_down;
 
 

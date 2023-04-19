@@ -22,11 +22,13 @@ count_increase_steps=0;
 [Diaphragm,Cell,Virus,Shell,~,Minimazation] = build_Hemifusion_structure(Diaphragm,Cell,Virus,Shell,Minimazation,res_struc,General_physical_properties);
 [Diaphragm,Cell,Virus,Shell,~,energy_vec(1)] = find_HD_energy(Diaphragm,Cell,Virus,Shell,Minimazation,res_struc);
 
-
-
+negative_cut_off=-100;
+if energy_vec(1)<negative_cut_off
+    fprintf('Bad intitial condition in "my_minimizer" (<-100)\n');
+end
 
 initial_energy=energy_vec(1);
-final_Energy=initial_energy;
+final_Energy=initial_energy+1;
 % the position vector record the DOF value at each step
 steps_size(1:2)=Minimazation.steps_size_vector(int_DOF);
 
@@ -132,7 +134,7 @@ while int<=Minimazation.MAX_ITR %run until hit MAX_ITR which is global paramter
      % if the energy has very negative value consider it as error and
      % do the same thing, erese error energy
      do_reverse=0;
-     if energy_vec(int)<-10 && abs(energy_vec(int)-energy_vec(int-1))>100
+     if energy_vec(int)<negative_cut_off && abs(energy_vec(int)-energy_vec(int-1))>100
          do_reverse=1;
          energy_decrease=0;
          final_Energy=energy_vec(int-1);
@@ -179,18 +181,18 @@ while int<=Minimazation.MAX_ITR %run until hit MAX_ITR which is global paramter
 
 
     if int==Minimazation.MAX_ITR
-        Diaphragm=save_Diaphragm0;
-        Cell=save_Cell0;
-        Virus=save_Virus0;
-        DOF_vector=save_DOF_vector0;
-        Minimazation=Minimazation_0;
-        final_Energy=initial_energy;
-        Minimazation.steps_size_vector(int_DOF)=Minimazation.steps_size_vector(int_DOF)/5;
-        if exist('crushed point.mat','file')==0
-            save('crushed point.mat');
-        end
+        %Diaphragm=save_Diaphragm0;
+        %Cell=save_Cell0;
+        %Virus=save_Virus0;
+        %DOF_vector=save_DOF_vector0;
+        %Minimazation=Minimazation_0;
+        %final_Energy=initial_energy;
+        %Minimazation.steps_size_vector(int_DOF)=Minimazation.steps_size_vector(int_DOF)/5;
+        %if exist('crushed point.mat','file')==0
+        %    save('crushed point.mat');
+        %end
         fprintf('Minimazation not complete\n');
-        break;
+        %break;
     end
 
     int=int+1;
@@ -198,7 +200,7 @@ end
 
 %check if procedure worked, if not restore intial configuration
 Minimazation.steps_size_vector(int_DOF)=steps_size(int);
-if initial_energy<final_Energy
+if initial_energy<final_Energy ||  final_Energy<negative_cut_off
     Diaphragm=save_Diaphragm0;
     Cell=save_Cell0;
     Virus=save_Virus0;

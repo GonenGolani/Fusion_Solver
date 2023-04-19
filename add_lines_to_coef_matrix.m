@@ -154,36 +154,15 @@ if Minimazation.axial_symmetry==0
         Virus.up_lipid_director_rho_smooth_polynom_matrix(:,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
         Virus.down_lipid_director_rho_smooth_polynom_matrix(:,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
     
-        Virus.Gaussian_decay_vector_up.k_vector_smooth_poly(1,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-        Diaphragm.Gaussian_decay_vector_up.k_vector_smooth_poly(1,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-        Cell.Gaussian_decay_vector_up.k_vector_smooth_poly(1,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-        Diaphragm.Gaussian_decay_vector_down.k_vector_smooth_poly(1,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-        Cell.Gaussian_decay_vector_down.k_vector_smooth_poly(1,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-        Virus.Gaussian_decay_vector_down.k_vector_smooth_poly(1,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
+        Virus.Gaussian_decay_vector_up.k_vector_smooth_poly(res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
+        Diaphragm.Gaussian_decay_vector_up.k_vector_smooth_poly(res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
+        Cell.Gaussian_decay_vector_up.k_vector_smooth_poly(res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
+        Diaphragm.Gaussian_decay_vector_down.k_vector_smooth_poly(res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
+        Cell.Gaussian_decay_vector_down.k_vector_smooth_poly(res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
+        Virus.Gaussian_decay_vector_down.k_vector_smooth_poly(res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
     end
 
 
-
-    %delete excess lines if exist
-    if old_polar_angle_polynom>res_struc.polar_angle_polynom
-        Diaphragm_old.mid_plane_smooth_polynom_matrix(:,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-        Cell.mid_plane_smooth_polynom_matrix(:,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-        Virus.mid_plane_smooth_polynom_matrix(:,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-
-        Diaphragm.down_lipid_director_rho_smooth_polynom_matrix(:,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-        Diaphragm.up_lipid_director_rho_smooth_polynom_matrix(:,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-        Cell.up_lipid_director_rho_smooth_polynom_matrix(:,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-        Cell.down_lipid_director_rho_smooth_polynom_matrix(:,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-        Virus.up_lipid_director_rho_smooth_polynom_matrix(:,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-        Virus.down_lipid_director_rho_smooth_polynom_matrix(:,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-    
-        Virus.Gaussian_decay_vector_up.k_vector_smooth_poly(1,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-        Diaphragm.Gaussian_decay_vector_up.k_vector_smooth_poly(1,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-        Cell.Gaussian_decay_vector_up.k_vector_smooth_poly(1,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-        Diaphragm.Gaussian_decay_vector_down.k_vector_smooth_poly(1,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-        Cell.Gaussian_decay_vector_down.k_vector_smooth_poly(1,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-        Virus.Gaussian_decay_vector_down.k_vector_smooth_poly(1,res_struc.polar_angle_polynom+1:old_polar_angle_polynom)=[];
-    end
 
 
     if old_z_mid_plane_poly>res_struc.poly_degree_z

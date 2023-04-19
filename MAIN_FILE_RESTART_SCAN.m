@@ -1,5 +1,4 @@
 
-
 % Fusion intermidate solver
 clc
 clear all

@@ -115,6 +115,7 @@ P3.LineWidth=2;
 
 %cell
 s2=surf(X_cell,Y_cell,Z_cell); 
+
 s2.FaceColor='none';
 P4=plot3(xt_cell,yt_cell,zt_cell,'r');
 P4.LineWidth=2;
@@ -127,6 +128,70 @@ xlabel('x')
 ylabel('y')
 zlabel('z')
 
+down_smaple_factor=4; %4 or 11
+
+Diaphragm_mid_plane_x=my_downsample(Diaphragm.mid_plane.x,down_smaple_factor);
+Diaphragm_mid_plane_x=my_downsample(Diaphragm_mid_plane_x',down_smaple_factor*5);
+
+Diaphragm_mid_plane_y=my_downsample(Diaphragm.mid_plane.y,down_smaple_factor);
+Diaphragm_mid_plane_y=my_downsample(Diaphragm_mid_plane_y',down_smaple_factor*5);
+
+Diaphragm_mid_plane_z=my_downsample(Diaphragm.mid_plane.z,down_smaple_factor);
+Diaphragm_mid_plane_z=my_downsample(Diaphragm_mid_plane_z',down_smaple_factor*5);
+
+Cell_mid_plane_x=my_downsample( Cell.mid_plane.x,down_smaple_factor);
+Cell_mid_plane_x=my_downsample( Cell_mid_plane_x',down_smaple_factor);
+
+Cell_mid_plane_y=my_downsample( Cell.mid_plane.y,down_smaple_factor);
+Cell_mid_plane_y=my_downsample( Cell_mid_plane_y',down_smaple_factor);
+
+Cell_mid_plane_z=my_downsample( Cell.mid_plane.z,down_smaple_factor);
+Cell_mid_plane_z=my_downsample( Cell_mid_plane_z',down_smaple_factor);
+
+Virus_mid_plane_x=my_downsample( Virus.mid_plane.x,down_smaple_factor);
+Virus_mid_plane_x=my_downsample( Virus_mid_plane_x',down_smaple_factor);
+
+Virus_mid_plane_y=my_downsample( Virus.mid_plane.y,down_smaple_factor);
+Virus_mid_plane_y=my_downsample( Virus_mid_plane_y',down_smaple_factor);
+
+Virus_mid_plane_z=my_downsample( Virus.mid_plane.z,down_smaple_factor);
+Virus_mid_plane_z=my_downsample( Virus_mid_plane_z',down_smaple_factor);
+
+%diaphragm rim
+rho_dia_rim=Diaphragm.rim.x0*Diaphragm.rim.y0./(Diaphragm.rim.y0^2*cos(phi).^2+Diaphragm.rim.y0^2*sin(phi).^2).^0.5;
+
+figure(5)
+hold on
+surf( Diaphragm_mid_plane_x', Diaphragm_mid_plane_y', Diaphragm_mid_plane_z','FaceColor','none','EdgeAlpha',0.5)
+surf(-Diaphragm_mid_plane_x', Diaphragm_mid_plane_y', Diaphragm_mid_plane_z','FaceColor','none','EdgeAlpha',0.5)
+surf(-Diaphragm_mid_plane_x',-Diaphragm_mid_plane_y', Diaphragm_mid_plane_z','FaceColor','none','EdgeAlpha',0.5)
+surf( Diaphragm_mid_plane_x',-Diaphragm_mid_plane_y', Diaphragm_mid_plane_z','FaceColor','none','EdgeAlpha',0.5)
+
+surf( Cell_mid_plane_x', Cell_mid_plane_y', Cell_mid_plane_z','FaceColor','none','EdgeAlpha',0.5)
+surf(-Cell_mid_plane_x', Cell_mid_plane_y', Cell_mid_plane_z','FaceColor','none','EdgeAlpha',0.5)
+surf(-Cell_mid_plane_x',-Cell_mid_plane_y', Cell_mid_plane_z','FaceColor','none','EdgeAlpha',0.5)
+surf( Cell_mid_plane_x',-Cell_mid_plane_y', Cell_mid_plane_z','FaceColor','none','EdgeAlpha',0.5)
+
+surf( Virus_mid_plane_x', Virus_mid_plane_y', Virus_mid_plane_z','FaceColor','none','EdgeAlpha',0.5)
+surf(-Virus_mid_plane_x', Virus_mid_plane_y', Virus_mid_plane_z','FaceColor','none','EdgeAlpha',0.5)
+surf(-Virus_mid_plane_x',-Virus_mid_plane_y', Virus_mid_plane_z','FaceColor','none','EdgeAlpha',0.5)
+surf( Virus_mid_plane_x',-Virus_mid_plane_y', Virus_mid_plane_z','FaceColor','none','EdgeAlpha',0.5)
+
+
+plot3(xt_virues,yt_virues,zt_virues,'r','LineWidth',2);
+plot3(xt_cell,yt_cell,zt_cell,'r','LineWidth',2);
+plot3(rho_dia_rim.*cos(phi),rho_dia_rim.*sin(phi),Diaphragm.rim.hl_vector(1)*ones(1,length(phi)),'r','LineWidth',2);
+
+
+%surf(X_Virues_full,Y_Virues_full,Z_Virues_full,'FaceColor','none');  %plot using U V coordinates
+axis equal
+xlim([-lim_plot lim_plot])
+ylim([-lim_plot lim_plot])
+zlim([-lim_plot lim_plot])
+view(90,0)
+xlabel('x')
+ylabel('y')
+zlabel('z')
 
 
 end

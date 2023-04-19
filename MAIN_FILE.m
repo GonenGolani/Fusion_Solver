@@ -92,8 +92,21 @@ end
 
 %last minimaztion
 
-[Diaphragm,Cell,Virus,Shell,~,DOF_vector,Minimazation] = ...
-    My_converger_all_DOF(Diaphragm,Cell,Virus,Shell,DOF_vector,res_struc,Minimazation,General_physical_properties,'all');
+%use if first step is diffrent
+if exist('repeats before start.txt','file')==2
+    repeats_before_step_1=importdata('repeats before start.txt');
+else
+    repeats_before_step_1=1; 
+end
+
+int_repeats=1;
+while int_repeats<=repeats_before_step_1
+
+    [Diaphragm,Cell,Virus,Shell,~,DOF_vector,Minimazation] = ...
+        My_converger_all_DOF(Diaphragm,Cell,Virus,Shell,DOF_vector,res_struc,Minimazation,General_physical_properties,'all');
+
+    int_repeats=int_repeats+1;
+end
 
 fprintf('HD minimaztion done\n');
 

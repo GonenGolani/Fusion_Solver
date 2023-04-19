@@ -258,14 +258,14 @@ if Shell.Shell_exist==1
 
 plot(Shell.Diaphragm.mid_plane.x(angle_indix,:),(Shell.Diaphragm.mid_plane.z(angle_indix,:)-Diaphragm.z0)*flip_sign,'--','Color',Shell_color)
 plot(Shell.Cell.mid_plane.x(angle_indix,:),(Shell.Cell.mid_plane.z(angle_indix,:)-Diaphragm.z0)*flip_sign,'--','Color',Shell_color)
-plot(Shell.Junction.mid_plane.x(angle_indix,:),(Shell.Junction.mid_plane.z(angle_indix,:)-Diaphragm.z0)*flip_sign,'--','Color','b')
+plot(Shell.Junction.mid_plane.x(angle_indix,:),(Shell.Junction.mid_plane.z(angle_indix,:)-Diaphragm.z0)*flip_sign,'--','Color',Shell_color)
 
 fill([Shell.Diaphragm.upper_plane.x(angle_indix,:), flip(Shell.Diaphragm.lower_plane.x(angle_indix,:))],...
 [Shell.Diaphragm.upper_plane.z(angle_indix,:) ,flip(Shell.Diaphragm.lower_plane.z(angle_indix,:))],Shell_color,'LineStyle','none','FaceAlpha',0.4);
 fill([Shell.Cell.upper_plane.x(angle_indix,:), flip(Shell.Cell.lower_plane.x(angle_indix,:))],...
 [Shell.Cell.upper_plane.z(angle_indix,:) ,flip(Shell.Cell.lower_plane.z(angle_indix,:))],Shell_color,'LineStyle','none','FaceAlpha',0.4);
 fill([Shell.Junction.upper_plane.x(angle_indix,:), flip(Shell.Junction.lower_plane.x(angle_indix,:))],...
-[Shell.Junction.upper_plane.z(angle_indix,:) ,flip(Shell.Junction.lower_plane.z(angle_indix,:))],'r','LineStyle','none','FaceAlpha',0.4);
+[Shell.Junction.upper_plane.z(angle_indix,:) ,flip(Shell.Junction.lower_plane.z(angle_indix,:))],Shell_color,'LineStyle','none','FaceAlpha',0.4);
 end
 
 
@@ -304,7 +304,8 @@ set(gca,'FontSize',18);
 set(gca,'FontWeight','bold'); 
 set(gca,'LineWidth',2); 
 set(gcf,'color','white')
-
+ax1 = gca;                   % gca = get current axis
+ax1.YAxis.Visible = 'off';   % remove y-axis
 
 
 

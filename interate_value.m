@@ -26,7 +26,8 @@ end
 int_step=initial_step;
 last_step=int_step;
 while int_step<max_steps+initial_step
-    
+
+
     value_now=(value_now^n+sign*delta_value^n)^(1/n);
     [Cell,Virus,Shell,General_physical_properties,Minimazation] = ...
         scan_value_translator(value_to_change,value_now,Cell,Virus,Shell,General_physical_properties,Minimazation);
@@ -62,15 +63,18 @@ while int_step<max_steps+initial_step
     [Diaphragm,Cell,Virus,Shell,~,Minimazation] = build_Hemifusion_structure(Diaphragm,Cell,Virus,Shell,Minimazation,res_struc,General_physical_properties);
     [Diaphragm,Cell,Virus,Shell,~,~] = find_HD_energy(Diaphragm,Cell,Virus,Shell,Minimazation,res_struc);
 
-
-
-    %re minimize the energy
-    [Diaphragm,Cell,Virus,Shell,~,DOF_vector,Minimazation] = My_converger_all_DOF...
-        (Diaphragm,Cell,Virus,Shell,DOF_vector,res_struc,Minimazation,General_physical_properties,'only first');
-
-    [Diaphragm,Cell,Virus,Shell,~,DOF_vector,Minimazation] = My_converger_all_DOF...
-        (Diaphragm,Cell,Virus,Shell,DOF_vector,res_struc,Minimazation,General_physical_properties,'all'); 
-
+    int_repeats=1;
+    while int_repeats<=Minimazation.number_of_repeats_each_step
+    
+        %re minimize the energy
+        [Diaphragm,Cell,Virus,Shell,~,DOF_vector,Minimazation] = My_converger_all_DOF...
+            (Diaphragm,Cell,Virus,Shell,DOF_vector,res_struc,Minimazation,General_physical_properties,'only first');
+    
+        [Diaphragm,Cell,Virus,Shell,~,DOF_vector,Minimazation] = My_converger_all_DOF...
+            (Diaphragm,Cell,Virus,Shell,DOF_vector,res_struc,Minimazation,General_physical_properties,'all'); 
+        
+        int_repeats=int_repeats+1;
+    end
 
 
     %save results

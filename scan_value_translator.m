@@ -26,7 +26,22 @@ elseif strcmp(value_to_change,'General_physical_properties.virus_distal_kappa')
     General_physical_properties_new.virus_distal_kappa=new_value;
 elseif strcmp(value_to_change,'General_physical_properties.proximal_kappa')
     General_physical_properties_new.proximal_kappa=new_value;
-    
+elseif strcmp(value_to_change,'General_physical_properties.Splay_grad_tilt_modulus')
+    General_physical_properties_new.Splay_grad_tilt_modulus=new_value;
+elseif strcmp(value_to_change,'General_physical_properties.Splay_grad_square_modulus')
+    General_physical_properties_new.Splay_grad_square_modulus=new_value;
+elseif strcmp(value_to_change,'General_physical_properties.Surface_tension')
+    General_physical_properties_new.Surface_tension=new_value;
+    if Minimazation.tension_distance_coupleing.exist==1 % if tension is coupled with distance
+        tension_b=2*General_physical_properties_new.Surface_tension;
+        kappa_b=Minimazation.tension_distance_coupleing.kappa_b;
+        Pext=Minimazation.tension_distance_coupleing.Pext;
+        h_vec=linspace(1,30,20000);
+        [~,H_index]=min(abs(3/4/pi^3/kappa_b.*h_vec.^-3.*(1+pi/12*tension_b*h_vec.^2).^-1-Pext));
+        Minimazation_new.fix_inter_membrane_distance=h_vec(H_index)+2*General_physical_properties_new.lipid_length;
+
+    end
+
 elseif strcmp(value_to_change,'General_physical_properties.Cell_mid_plane_physical_proprties.kappa')
     General_physical_properties_new.Cell_mid_plane_physical_proprties.kappa=new_value;
 elseif strcmp(value_to_change,'General_physical_properties.Cell_mid_plane_physical_proprties.kappa_bar')
@@ -79,6 +94,12 @@ elseif strcmp(value_to_change,'Minimazation.symmetric_distal_J0')
 
 elseif strcmp(value_to_change,'Minimazation.HD_rim_fixed_cell')
     Minimazation_new.HD_rim_fixed_cell=new_value;  
+
+elseif strcmp(value_to_change,'Minimazation.fix_inter_membrane_distance')
+    Minimazation_new.fix_inter_membrane_distance=new_value;
+
+    %tension- distance coupeling
+
     
 else
     disp('ERROR in scan_value_translator, no value assigned')

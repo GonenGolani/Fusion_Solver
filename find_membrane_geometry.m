@@ -189,7 +189,7 @@ saddle_splay.down=(splay_tensor.down.xx.*splay_tensor.down.yy-splay_tensor.down.
 
 
 %%
-if physical_properties.Splay_grad_square_modulus~=0
+if physical_properties.Splay_grad_square_modulus~=0 || physical_properties.Splay_grad_tilt_modulus~=0
     
     [splay_change_rho_up,~]=gradient(splay.up);
     [splay_change_rho_down,~]=gradient(splay.down);

@@ -20,7 +20,7 @@ function [Elastic_energy,resting_energy, proximal_area, distal_area,bulk_splay_e
         J_proxy=-2/Rc_proxy;
         J_distal=2/Rc_distal;
     end
-
+    
 
     distal_area=cell_area(Rc_distal,Rm_distal);
     proximal_area=cell_area(Rc_proxy,Rm_proxy);
@@ -43,8 +43,13 @@ function [Elastic_energy,resting_energy, proximal_area, distal_area,bulk_splay_e
 
     %### rest
     
+    % if volume is indirectly fised
+    if Cell.rest_radius_if_volume_fixed~=0
+        rest_MP_radius=Cell.rest_radius_if_volume_fixed;
+    else % if not fixed
+        rest_MP_radius=Cell.R_curv;
+    end
 
-    rest_MP_radius=Cell.R_curv;
     
     if (rest_MP_radius>0)
         Rc_proxy_rest=rest_MP_radius+Cell.physical_properties.lipid_length;
